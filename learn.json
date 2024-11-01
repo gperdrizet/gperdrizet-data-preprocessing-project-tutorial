@@ -5,7 +5,7 @@
 	"solution": "https://github.com/4GeeksAcademy/data-preprocessing-project-tutorial/blob/main/solution.ipynb",
 	"status": "published",
 	"translations": ["us"],
-	"technologies": ["data-science", "data-processing"],
+	"technologies": ["data-science", "data-processing", "python", "pandas", "matplotlib", "jupyter notebook", "machine learning", "data science"],
 	"difficulty": "beginner",
 	"syntax": "python",
 	"duration" : 2,
