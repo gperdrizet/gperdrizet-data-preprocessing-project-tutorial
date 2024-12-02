@@ -9,6 +9,7 @@
 	"difficulty": "beginner",
 	"syntax": "python",
 	"duration" : 2,
+	"template_url": "https://github.com/4GeeksAcademy/machine-learning-python-template",
     	"projectType": "project",
 	"description" : "This is a dataset that contains Airbnb data on New York City. You will use it to practice your new EDA (exploratory data analysis) and data wrangling skills.",
 	"solution": {
