@@ -1,33 +1,28 @@
 '''Collection of reusable helper functions refactored from EDA notebooks.'''
 
-# Standard library imports
-from itertools import product
-
 # PyPI imports
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 
-def get_correlations(features_list: list, df: pd.DataFrame) -> pd.DataFrame:
-    '''Takes list of string column names and a dataframe, calculates Pearson 
+def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=None) -> dict:
+    '''Takes list of feature name tuples and a dataframe, calculates Pearson 
     correlation coefficient and Spearman rank correlation coefficient using
-    SciPy. Returns a data frame with the results.'''
+    SciPy. Returns a dictionary with the results. Pass in results from an
+    earlier call to append.'''
 
-    # Dictionary to hold results, will be converted to a Pandas dataframe
-    # at the end
-    correlations={
-        'Feature 1':[],
-        'Feature 2':[],
-        'Spearman coefficient':[],
-        'Spearman p-value':[],
-        'Pearson coefficient':[],
-        'Pearson p-value':[],
-        'Pearson r-squared':[]
-    }
-
-    # Create a list of unique feature pair tuples from the input list
-    feature_pairs=list(set(tuple(sorted(pair)) for pair in product(features_list, features_list)))
+    # If results weren't passed in, start an empty dictionary to collect them
+    if correlations is None:
+        correlations={
+            'Feature 1':[],
+            'Feature 2':[],
+            'Spearman coefficient':[],
+            'Spearman p-value':[],
+            'Pearson coefficient':[],
+            'Pearson p-value':[],
+            'Pearson r-squared':[]
+        }
 
     # Loop on the feature pairs to calculate the corelation coefficients between each
     for feature_pair in feature_pairs:
@@ -51,7 +46,7 @@ def get_correlations(features_list: list, df: pd.DataFrame) -> pd.DataFrame:
             correlations['Pearson p-value'].append(pcc.pvalue)
             correlations['Pearson r-squared'].append(pcc.statistic**2)
 
-    return pd.DataFrame.from_dict(correlations)
+    return correlations
 
 
 def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> None:
@@ -78,7 +73,7 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
 
         if stats.kurtosis(data_df[row['Feature 1']].dropna()) > 40:
             ax.set_xscale('log')
-        
+
         if stats.kurtosis(data_df[row['Feature 2']].dropna()) > 40:
             ax.set_yscale('log')
 
