@@ -17,9 +17,11 @@ def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=N
         correlations={
             'Feature 1':[],
             'Feature 2':[],
-            'Spearman coefficient':[],
+            'Absolute Spearman':[],
+            'Spearman':[],
             'Spearman p-value':[],
-            'Pearson coefficient':[],
+            'Absolute Pearson':[],
+            'Pearson':[],
             'Pearson p-value':[],
             'Pearson r-squared':[]
         }
@@ -33,6 +35,10 @@ def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=N
             # Get data for this feature pair
             feature_pair_data=df[[*feature_pair]].dropna()
 
+            # Replace any infinte values with nan and drop
+            feature_pair_data.replace([np.inf, -np.inf], np.nan, inplace=True)
+            feature_pair_data.dropna(inplace=True)
+
             # Get Pearson and Spearman correlation coefficients and their p-values
             pcc=stats.pearsonr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
             src=stats.spearmanr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
@@ -40,9 +46,11 @@ def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=N
             # Collect the results
             correlations['Feature 1'].append(feature_pair[0])
             correlations['Feature 2'].append(feature_pair[1])
-            correlations['Spearman coefficient'].append(src.statistic)
+            correlations['Absolute Spearman'].append(abs(src.statistic))
+            correlations['Spearman'].append(src.statistic)
             correlations['Spearman p-value'].append(src.pvalue)
-            correlations['Pearson coefficient'].append(pcc.statistic)
+            correlations['Absolute Pearson'].append(pcc.statistic)
+            correlations['Pearson'].append(pcc.statistic)
             correlations['Pearson p-value'].append(pcc.pvalue)
             correlations['Pearson r-squared'].append(pcc.statistic**2)
 
