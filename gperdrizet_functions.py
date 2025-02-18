@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
+from sklearn.model_selection import cross_val_score
 
 def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=None) -> dict:
     '''Takes list of feature name tuples and a dataframe, calculates Pearson 
@@ -88,3 +89,29 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
     fig.tight_layout()
 
     return fig
+
+
+def test_features(model: callable, datasets: dict, features: list, label: str, folds: int=30) -> dict:
+    '''Runs cross-validation on data in datasets dictionary.'''
+
+    results={
+        'Feature set':[],
+        'Explained variance':[]
+    }
+
+    for dataset, df in datasets.items():
+
+        df.dropna(inplace=True)
+
+        scores=cross_val_score(
+            model,
+            df[features],
+            df[label],
+            scoring='explained_variance',
+            cv=folds
+        )
+
+        results['Feature set'].extend([dataset]*folds)
+        results['Explained variance'].extend(abs(scores))
+
+    return pd.DataFrame.from_dict(results)
