@@ -91,7 +91,7 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
     return fig
 
 
-def test_features(model: callable, datasets: dict, features: list, label: str, folds: int=30) -> dict:
+def test_features(model: callable, datasets: dict, label: str, folds: int=30) -> dict:
     '''Runs cross-validation on data in datasets dictionary.'''
 
     results={
@@ -105,7 +105,7 @@ def test_features(model: callable, datasets: dict, features: list, label: str, f
 
         scores=cross_val_score(
             model,
-            df[features],
+            df.drop(label, axis=1),
             df[label],
             scoring='explained_variance',
             cv=folds
