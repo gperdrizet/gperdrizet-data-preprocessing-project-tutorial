@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import ShuffleSplit
 
 def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=None) -> dict:
     '''Takes list of feature name tuples and a dataframe, calculates Pearson 
@@ -91,27 +92,37 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
     return fig
 
 
-def test_features(model: callable, datasets: dict, label: str, folds: int=30) -> dict:
+def test_features(
+        model: callable,
+        datasets: dict,
+        label: str,
+        folds: int=30,
+        scoring: str='explained_variance'
+) -> dict:
     '''Runs cross-validation on data in datasets dictionary.'''
 
     results={
         'Feature set':[],
-        'Explained variance':[]
+        'Score':[]
     }
 
     for dataset, df in datasets.items():
 
-        df.dropna(inplace=True)
+        cleaned_df=df.dropna(inplace=False).copy()
+        #print(f'{dataset}: {cleaned_df.columns}')
 
         scores=cross_val_score(
             model,
-            df.drop(label, axis=1),
-            df[label],
-            scoring='explained_variance',
-            cv=folds
+            cleaned_df.drop(label, axis=1),
+            cleaned_df[label],
+            scoring=scoring,
+            cv=ShuffleSplit(n_splits=folds, test_size=0.25, random_state=315)
+            
         )
+        
+        #print(f'Scores: {scores}')
 
         results['Feature set'].extend([dataset]*folds)
-        results['Explained variance'].extend(abs(scores))
+        results['Score'].extend(abs(scores))
 
     return pd.DataFrame.from_dict(results)
