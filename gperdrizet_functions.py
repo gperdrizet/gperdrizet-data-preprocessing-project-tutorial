@@ -7,8 +7,7 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy import stats
-from scipy.stats import kruskal, f_oneway
+from scipy.stats import pearsonr, spearmanr, f_oneway, linregress, kurtosis
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
@@ -40,15 +39,15 @@ def get_correlations(feature_pairs: list, df: pd.DataFrame, correlations: dict=N
         if feature_pair[0] != feature_pair[1]:
 
             # Get data for this feature pair
-            feature_pair_data=df[[*feature_pair]].dropna()
+            feature_pair_data=df[[*feature_pair]].copy()
 
-            # Replace any infinte values with nan and drop
+            # Replace any infinite values with nan and drop
             feature_pair_data.replace([np.inf, -np.inf], np.nan, inplace=True)
             feature_pair_data.dropna(inplace=True)
 
             # Get Pearson and Spearman correlation coefficients and their p-values
-            pcc=stats.pearsonr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
-            src=stats.spearmanr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
+            pcc=pearsonr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
+            src=spearmanr(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
 
             # Collect the results
             correlations['Feature 1'].append(feature_pair[0])
@@ -76,7 +75,7 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
 
         # Linear regression to show on plot
         feature_pair_data=data_df[[row['Feature 1'], row['Feature 2']]].dropna()
-        regression=stats.linregress(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
+        regression=linregress(feature_pair_data.iloc[:,0], feature_pair_data.iloc[:,1])
         regression_x=np.linspace(min(feature_pair_data.iloc[:,0]),max(feature_pair_data.iloc[:,0]))
         regression_y=regression.slope*regression_x + regression.intercept
 
@@ -86,10 +85,10 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
         ax.set_xlabel(row['Feature 1'])
         ax.set_ylabel(row['Feature 2'])
 
-        if stats.kurtosis(data_df[row['Feature 1']].dropna()) > 40:
+        if kurtosis(data_df[row['Feature 1']].dropna()) > 40:
             ax.set_xscale('log')
 
-        if stats.kurtosis(data_df[row['Feature 2']].dropna()) > 40:
+        if kurtosis(data_df[row['Feature 2']].dropna()) > 40:
             ax.set_yscale('log')
 
     fig.tight_layout()
