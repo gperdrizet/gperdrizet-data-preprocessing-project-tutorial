@@ -1,10 +1,15 @@
 '''Collection of reusable helper functions refactored from EDA notebooks.'''
 
+# Standard library imports
+from typing import Callable
+
 # PyPI imports
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import stats
+from scipy.stats import kruskal, f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import ShuffleSplit
 
@@ -89,15 +94,13 @@ def plot_correlations(data_df: pd.DataFrame, correlations_df: pd.DataFrame) -> N
 
     fig.tight_layout()
 
-    return fig
-
 
 def test_features(
-        model: callable,
+        model: Callable,
         datasets: dict,
-        label: str,
+        label: str='price',
+        scoring: str='explained_variance',
         folds: int=30,
-        scoring: str='explained_variance'
 ) -> dict:
     '''Runs cross-validation on data in datasets dictionary.'''
 
@@ -126,3 +129,26 @@ def test_features(
         results['Score'].extend(abs(scores))
 
     return pd.DataFrame.from_dict(results)
+
+
+def evaluate_datasets(
+        model: Callable,
+        datasets: dict,
+        label: str='price',
+        scoring: str='explained_variance',
+        folds: int=30
+):
+    '''Takes a Scikit-learn regression model instance, a dictionary of datasets, the label column name and
+    a SciKit-Learn scoring string. Run cross-validation on each dataset, then tests the differences
+    in scores with ANOVA followed by Tukey's post-hoc test. Returns cross-validation scores an Tukey result'''
+
+    cross_val_results_df=test_features(model, datasets, label, scoring, folds)
+
+    data=[list(x) for _, x in cross_val_results_df.groupby('Feature set')['Score']]
+    labels=[[x]*len(y) for x, y in cross_val_results_df.groupby('Feature set')['Score']]
+    anova_result=f_oneway(*data)
+    print(f'ANOVA p-value: {anova_result.pvalue:.3f}\n')
+
+    tukey_result=pairwise_tukeyhsd(np.concatenate(data), np.concatenate(labels), alpha=0.05)
+
+    return cross_val_results_df, tukey_result
