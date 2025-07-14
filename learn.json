@@ -1,20 +1,29 @@
 {
 	"slug" : "data-preprocessing-project-tutorial",
-	"title" : "Data Preprocessing Project Tutorial",
+	"title" : {
+		"us": "Data Preprocessing Project Tutorial",
+		"es": "Tutorial del proyecto de preprocesamiento de datos"
+	},
 	"preview": "https://github.com/4GeeksAcademy/data-preprocessing-project-tutorial/blob/main/preview.png?raw=true",
-	"solution": "https://github.com/4GeeksAcademy/data-preprocessing-project-tutorial/blob/main/solution.ipynb",
 	"status": "published",
 	"translations": ["us"],
-	"technologies": ["data-science", "data-processing"],
+	"technologies": ["data-science", "data-processing", "python", "pandas", "matplotlib", "jupyter notebook", "machine learning", "data science"],
 	"difficulty": "beginner",
 	"syntax": "python",
 	"duration" : 2,
+	"template_url": "https://github.com/4GeeksAcademy/machine-learning-python-template",
     	"projectType": "project",
-	"description" : "This is a dataset that contains Airbnb data on New York City. You will use it to practice your new EDA (exploratory data analysis) and data wrangling skills.",
+	"autoPlay": "false",
+	"description": {
+		"us": "This dataset contains Airbnb rental data from New York City, collected in 2019. It will help you practice exploratory data analysis (EDA) and data wrangling skills. You’ll analyze variables, clean and process the data, and draw insights. The dataset can be downloaded from Kaggle or a provided link.",
+		"es": "Este conjunto de datos contiene información sobre alquileres de Airbnb en la ciudad de Nueva York, recopilada en 2019. Te ayudará a practicar el análisis exploratorio de datos (EDA) y las habilidades de manipulación de datos. Analizarás variables, limpiarás y procesarás los datos y extraerás conclusiones. El dataset se puede descargar desde Kaggle o un enlace proporcionado."
+	},
 	"solution": {
 		"us": "https://github.com/4GeeksAcademy/data-preprocessing-project-tutorial/blob/main/solution.ipynb",
 		"es": "https://github.com/4GeeksAcademy/data-preprocessing-project-tutorial/blob/main/solution.es.ipynb"
 	},
-	"gitpod": true,
-	"template_url":"https://github.com/4GeeksAcademy/machine-learning-python-template"
+	"telemetry": {
+		"batch": "https://breathecode.herokuapp.com/v1/assignment/me/telemetry?asset_id=407"
+	},
+	"gitpod": true
 }
