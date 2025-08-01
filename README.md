@@ -37,7 +37,7 @@ This should include a plot and a quantification of the strength of relationship 
     - **Quantification**: Spearman or Kendall correlation coefficient. SciPy.stats has pairwise implementations for both: [spearmanr](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html) and [kendalltau](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kendalltau.html). Pandas [`df.corr()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html) is another option to calculate a full cross-correlation matrix for a dataframe in one call.
     - **Plot**: Scatter plot using Matplotlib. Be sure to label axes and/or plot and pick appropriate scales. Adding a best fit line can be nice, but is not super important for this data. Question: why not? Related: why am I suggesting non-parametric rank based correlation coefficients above?
 
-### 3. Data cleaning
+## 3. Data cleaning
 
 1. **Feature selection**: decide what features to include in (or exclude from) you analysis. Base this decision on the type and quality of information contained in each feature. Will it be useful for modeling? Example: the listing id number is not needed. hThere are no features in this dataset which should be removed based on their correlation with other features.
 
@@ -45,7 +45,7 @@ This should include a plot and a quantification of the strength of relationship 
 
 3. **Extreme values**: Remove or replace any extreme values for which you think action is warranted. Note: it is not required for you to take any action based solely on the identification of an observation or observations as 'statistical' outliers. Examples: the `minimum_nights` column contains 999 values for several listings, these could be removed or filled based on the assumption that they are placeholders or errors. The `price` column has several very expensive listings, but on inspection they do seem to be real data (one is a 70 foot yacht parked on Manhattan!). These could be excluded or clipped, but a justification should be made in terms of the goal of the analysis.
 
-### 4. Feature engineering
+## 4. Feature engineering
 
 1. **Feature encoding**: The dataset contains two nominal features which need to be encoded to numbers: `neighbourhood_group` and `room_type`. Nominal features should be one-hot encoded. See [`sklearn.preprocessing.OneHotEncoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html).
 
