@@ -21,6 +21,6 @@
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "mkdir -p data && mkdir -p models",
+	"postCreateCommand": "mkdir -p data",
 	"postAttachCommand": "htop"
 }
