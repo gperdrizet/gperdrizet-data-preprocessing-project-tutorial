@@ -18,21 +18,21 @@ This should include summary statistics and plots, each feature should be handled
 
 You should also include a short description of your findings. This is a good time to think about each feature's distribution type, possibly missing and/or extreme values or anything else strange/unexplained/interesting of note.
 
-## 2. Investigate interactions between features (correlations)
+## 2. Investigate relationships between features (interactions)
 
 This should include a plot and a quantification of the strength of relationship between each pair of features. Quantification can be done using a correlation coefficient or statistical test. Again, each pair of features should be handled correctly based on the data types.
 
-1. **Nominal vs nominal**
+1. **Nominal vs nominal features**
 
     - **Quantification**: Chi-squared test for contingency tables of count data, hint: see [`scipy.stats.chisquare`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html).
-    - **Plot**: Stratified bar plot. Matplotlib or Seaborn are a good basic options here.
+    - **Plot**: Stratified bar plot. Matplotlib or Seaborn are a good options here.
 
-2. **Nominal vs numerical**
+2. **Nominal vs numerical features**
 
     - **Quantification**: Kruskal-Wallis H-test for equality of medians, using a nominal feature as the independent variable and one of the numerical features as the dependent variable. hint: see [`scipy.stats.kruskal`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html). Question: why am I suggesting the H-test here, rather than ANOVA?
     - **Plot**: Stratified boxplot where nominal feature is x-axis and numerical feature is y-axis. Seaborn is a great option.
 
-3. **Interval vs numerical**
+3. **Interval vs numerical features**
 
     - **Quantification**: Spearman or Kendall correlation coefficient. SciPy.stats has pairwise implementations for both: [spearmanr](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html) and [kendalltau](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kendalltau.html). Pandas [`df.corr()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html) is another option to calculate a full cross-correlation matrix for a dataframe in one call.
     - **Plot**: Scatter plot using Matplotlib. Be sure to label axes and/or plot and pick appropriate scales. Adding a best fit line can be nice, but is not super important for this data. Question: why not? Related: why am I suggesting non-parametric rank based correlation coefficients above?
