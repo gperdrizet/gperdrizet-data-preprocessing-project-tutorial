@@ -16,18 +16,18 @@ This project guides students through the complete data preprocessing pipeline us
 
 ```
 ├── notebooks/
-│   ├── MVP.ipynb           # Assignment notebook for students
-│   └── instructions.md     # Detailed assignment instructions
+│   ├── MVP.ipynb                    # Assignment notebook for students
+│   ├── MVP_solution.ipynb           # Competed MVP
+│   └── instructions.md              # Detailed assignment instructions
 ├── solution/
-│   ├── gperdrizet-01_distributions.ipynb    # EDA and feature distributions
-│   ├── gperdrizet-02_correlations.ipynb     # Feature relationships analysis
-│   ├── gperdrizet-03_data_cleaning.ipynb    # Data cleaning strategies
-│   ├── gperdrizet-04_feature_engineering.ipynb # Advanced preprocessing
-│   ├── gperdrizet_functions.py              # Helper functions
-│   └── __pycache__/                         # Python cache files
+│   ├── 01_distributions.ipynb       # EDA and feature distributions
+│   ├── 02_correlations.ipynb        # Feature relationships analysis
+│   ├── 03_data_cleaning.ipynb       # Data cleaning strategies
+│   ├── 04_feature_engineering.ipynb # Advanced preprocessing
+│   ├── functions.py                 # Helper functions
 ├── data/
-│   └── processed/                           # Cleaned datasets (generated)
-└── requirements.txt                         # Python dependencies
+│   └── processed/                   # Cleaned datasets 
+└── requirements.txt                 # Python dependencies
 ```
 
 ## Learning Objectives
@@ -136,12 +136,12 @@ The dataset is automatically loaded from the web in the notebooks, so no manual 
 
 ## Solution Reference
 
-The `solution/` folder contains professional-level implementations:
+The solution to the MVP notebook can be found in `MVP_solution.ipynb`. The `solution/` folder contains more professional-level implementations with experimentation to evaluate alternative approaches:
 
-- **`gperdrizet-01_distributions.ipynb`**: Comprehensive EDA with detailed analysis of each feature
-- **`gperdrizet-02_correlations.ipynb`**: Statistical testing and relationship analysis
-- **`gperdrizet-03_data_cleaning.ipynb`**: Systematic comparison of cleaning strategies
-- **`gperdrizet-04_feature_engineering.ipynb`**: Advanced preprocessing achieving 60% explained variance
+- **`01_distributions.ipynb`**: Comprehensive EDA with detailed analysis of each feature
+- **`02_correlations.ipynb`**: Statistical testing and relationship analysis
+- **`03_data_cleaning.ipynb`**: Systematic comparison of cleaning strategies
+- **`04_feature_engineering.ipynb`**: Advanced preprocessing achieving 60% explained variance
 
 Each solution notebook includes:
 - Clear goal statements for each section
